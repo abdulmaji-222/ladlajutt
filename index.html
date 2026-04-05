@@ -3,24 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Ladla JUTT - TikTok Gaming | Multi-User Access System</title>
+    <title>Ladla JUTT - TikTok Gaming | Complete Admin Control</title>
     <style>
-        /* Base & Reset */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, 'Roboto', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #0a0a0a;
             color: #f0f0f0;
             overflow-x: hidden;
         }
 
-        /* animations */
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -33,24 +30,12 @@
             0%,100% { transform: translateY(0); }
             50% { transform: translateY(-8px); }
         }
-        @keyframes pulseGlow {
-            0% { text-shadow: 0 0 0 #ff8c00; }
-            50% { text-shadow: 0 0 12px #ff8c00, 0 0 4px #ff8c00; }
-            100% { text-shadow: 0 0 0 #ff8c00; }
-        }
-        @keyframes floatIcon {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-12px); }
-            100% { transform: translateY(0px); }
-        }
 
         .fade-in { animation: fadeIn 0.7s ease forwards; }
-        .slide-up { animation: slideUp 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards; }
+        .slide-up { animation: slideUp 0.6s ease forwards; }
         .bounce-soft { animation: bounceSoft 2.2s infinite ease; }
-        .glow-text { animation: pulseGlow 2s infinite; }
-        .float-em { animation: floatIcon 3s ease-in-out infinite; }
 
-        /* login panel */
+        /* Login Page */
         .login-page {
             min-height: 100vh;
             display: flex;
@@ -65,11 +50,9 @@
             border-radius: 2rem;
             padding: 2.5rem 2rem;
             width: 100%;
-            max-width: 450px;
+            max-width: 400px;
             text-align: center;
             border: 1px solid rgba(255, 140, 0, 0.4);
-            box-shadow: 0 25px 45px rgba(0,0,0,0.5);
-            transition: all 0.2s;
         }
         .login-card h2 {
             font-size: 2.2rem;
@@ -79,11 +62,6 @@
             background-clip: text;
             color: transparent;
         }
-        .login-card p {
-            color: #ccc;
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
-        }
         .login-card input {
             width: 100%;
             padding: 14px 18px;
@@ -92,13 +70,7 @@
             border-radius: 60px;
             font-size: 1rem;
             color: white;
-            outline: none;
-            transition: 0.2s;
-            margin-bottom: 1rem;
-        }
-        .login-card input:focus {
-            border-color: #ff8c00;
-            box-shadow: 0 0 6px rgba(255,140,0,0.5);
+            margin: 1rem 0;
         }
         .login-card button {
             width: 100%;
@@ -110,112 +82,14 @@
             font-weight: bold;
             color: white;
             cursor: pointer;
-            transition: 0.2s;
-            margin-top: 8px;
-        }
-        .login-card button:hover {
-            transform: scale(1.02);
-            filter: brightness(1.05);
         }
         .error-msg {
             color: #ff6a6a;
             font-size: 0.85rem;
             margin-top: 1rem;
         }
-        .info-badge {
-            background: rgba(255,140,0,0.15);
-            border-radius: 30px;
-            padding: 8px 12px;
-            font-size: 0.7rem;
-            display: inline-block;
-            margin-top: 12px;
-            color: #ffaa66;
-        }
 
-        /* Admin Panel Styles (only visible to master admin) */
-        .admin-panel {
-            background: #0a0a12;
-            border: 1px solid #ff8c00;
-            border-radius: 1rem;
-            padding: 1.2rem;
-            margin-bottom: 2rem;
-        }
-        .admin-title {
-            color: #ff8c00;
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .email-input-group {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-bottom: 1rem;
-        }
-        .email-input-group input {
-            flex: 1;
-            padding: 10px 15px;
-            background: #1e1e2e;
-            border: 1px solid #444;
-            border-radius: 40px;
-            color: white;
-            font-size: 0.9rem;
-        }
-        .admin-btn {
-            background: #ff8c00;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 40px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.2s;
-            color: #111;
-        }
-        .admin-btn-danger {
-            background: #dc3545;
-            color: white;
-        }
-        .admin-btn-sm {
-            padding: 5px 12px;
-            font-size: 0.8rem;
-        }
-        .admin-list {
-            margin-top: 1rem;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-        .email-item {
-            background: #1a1a24;
-            padding: 8px 12px;
-            margin: 5px 0;
-            border-radius: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.85rem;
-        }
-        .remove-email {
-            background: #dc3545;
-            border: none;
-            padding: 4px 12px;
-            border-radius: 30px;
-            color: white;
-            cursor: pointer;
-            font-size: 0.7rem;
-        }
-        .master-badge {
-            background: #ff8c00;
-            color: #111;
-            padding: 2px 8px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: bold;
-            margin-left: 8px;
-        }
-
-        /* main website navbar */
+        /* Navbar */
         .navbar {
             background: #000000cc;
             backdrop-filter: blur(16px);
@@ -232,7 +106,6 @@
         .logo {
             font-size: 1.7rem;
             font-weight: 800;
-            letter-spacing: -0.5px;
             background: linear-gradient(135deg, #fff, #ffaa44);
             -webkit-background-clip: text;
             background-clip: text;
@@ -253,44 +126,106 @@
         .nav-links a {
             color: #f0f0f0;
             text-decoration: none;
-            font-weight: 500;
             cursor: pointer;
             transition: 0.2s;
-            font-size: 1rem;
-            padding: 6px 0;
         }
         .nav-links a:hover {
             color: #ff8c00;
-            text-shadow: 0 0 4px #ff8c00;
         }
         .admin-link {
             border: 1px solid #ff8c00;
-            padding: 4px 12px;
+            padding: 5px 12px;
             border-radius: 30px;
+            background: rgba(255,140,0,0.1);
         }
 
-        /* hero section */
+        /* Admin Panel */
+        .admin-panel {
+            background: #0a0a12;
+            border: 2px solid #ff8c00;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .admin-title {
+            color: #ff8c00;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .email-input-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+        .email-input-group input {
+            flex: 1;
+            padding: 12px 18px;
+            background: #1e1e2e;
+            border: 1px solid #444;
+            border-radius: 40px;
+            color: white;
+            font-size: 1rem;
+        }
+        .admin-btn {
+            background: #ff8c00;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #111;
+        }
+        .admin-btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+        .admin-list {
+            margin-top: 1rem;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .email-item {
+            background: #1a1a24;
+            padding: 10px 15px;
+            margin: 8px 0;
+            border-radius: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+        .remove-email {
+            background: #dc3545;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 30px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        .master-badge {
+            background: #ff8c00;
+            color: #111;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        /* Hero & Pages */
         .hero {
             padding: 4rem 1.5rem;
             text-align: center;
             background: radial-gradient(ellipse at 30% 40%, #12121c, #030308);
         }
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 0.75rem;
-        }
-        .highlight {
-            background: linear-gradient(135deg, #ffb347, #ff6a00);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        .tagline {
-            font-size: 1.3rem;
-            font-weight: 500;
-            color: #ffaa55;
-            margin-bottom: 2rem;
-        }
+        .hero h1 { font-size: 3rem; margin-bottom: 0.75rem; }
+        .tagline { font-size: 1.3rem; color: #ffaa55; margin-bottom: 2rem; }
         .hero-box {
             background: rgba(0, 0, 0, 0.65);
             backdrop-filter: blur(8px);
@@ -300,10 +235,6 @@
             border-radius: 2rem;
             border: 1px solid rgba(255,140,0,0.5);
             text-align: left;
-        }
-        .hero-box p {
-            margin: 1rem 0;
-            line-height: 1.5;
         }
         .features-list {
             margin-top: 1rem;
@@ -315,29 +246,15 @@
             align-items: center;
             gap: 0.5rem;
         }
-        .features-list li::before {
-            content: "🎮";
-            font-size: 1.2rem;
-        }
-        .money-icon {
-            font-size: 3.5rem;
-            margin-bottom: 0.5rem;
-            letter-spacing: 6px;
-        }
+        .features-list li::before { content: "🎮"; font-size: 1.2rem; }
+        .money-icon { font-size: 3.5rem; margin-bottom: 0.5rem; letter-spacing: 6px; }
 
-        /* pages */
         .page {
             display: none;
             padding: 3rem 1.5rem;
-            animation: fadeIn 0.4s ease;
         }
-        .page.active {
-            display: block;
-        }
-        .container {
-            max-width: 1300px;
-            margin: 0 auto;
-        }
+        .page.active { display: block; }
+        .container { max-width: 1300px; margin: 0 auto; }
         .page-title {
             text-align: center;
             font-size: 2.5rem;
@@ -348,38 +265,26 @@
             color: transparent;
         }
 
-        /* apps grid */
-        .apps-grid {
+        /* Apps & Videos Grid */
+        .apps-grid, .videos-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 1.8rem;
         }
-        .app-card {
+        .app-card, .video-card {
             background: #111118;
             border-radius: 1.5rem;
             padding: 1.6rem;
             text-align: center;
             border: 1px solid #2a2a35;
             transition: all 0.25s;
+            cursor: pointer;
         }
-        .app-card:hover {
-            transform: translateY(-6px);
+        .app-card:hover, .video-card:hover {
+            transform: translateY(-5px);
             border-color: #ff8c00;
-            box-shadow: 0 15px 30px -12px rgba(255,140,0,0.2);
         }
-        .app-icon {
-            font-size: 3.2rem;
-            margin-bottom: 0.8rem;
-        }
-        .app-card h3 {
-            font-size: 1.3rem;
-            margin: 0.7rem 0 0.4rem;
-        }
-        .app-card p {
-            color: #aaa;
-            font-size: 0.85rem;
-            margin-bottom: 1.2rem;
-        }
+        .app-icon { font-size: 3.2rem; margin-bottom: 0.8rem; }
         .download-btn {
             display: inline-block;
             background: #ff8c00;
@@ -388,30 +293,6 @@
             text-decoration: none;
             color: #111;
             font-weight: bold;
-            transition: 0.2s;
-        }
-        .download-btn:hover {
-            background: #ffaa33;
-            transform: scale(1.02);
-        }
-
-        /* videos grid */
-        .videos-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-            gap: 2rem;
-        }
-        .video-card {
-            background: #0e0e16;
-            border-radius: 1.2rem;
-            overflow: hidden;
-            cursor: pointer;
-            transition: all 0.25s;
-            border: 1px solid #2a2a34;
-        }
-        .video-card:hover {
-            transform: translateY(-5px);
-            border-color: #ff8c00;
         }
         .video-thumbnail {
             background: linear-gradient(145deg, #1f1f2c, #0b0b12);
@@ -420,27 +301,9 @@
             align-items: center;
             justify-content: center;
         }
-        .play-icon {
-            font-size: 3.5rem;
-            color: #ff8c00;
-            transition: 0.2s;
-        }
-        .video-card:hover .play-icon {
-            transform: scale(1.1);
-        }
-        .video-info {
-            padding: 1rem 1.2rem 1.2rem;
-        }
-        .video-info h3 {
-            font-size: 1.1rem;
-            margin-bottom: 0.3rem;
-        }
-        .video-info p {
-            color: #aaa;
-            font-size: 0.8rem;
-        }
+        .play-icon { font-size: 3.5rem; color: #ff8c00; }
 
-        /* modal video */
+        /* Video Modal */
         .video-modal {
             position: fixed;
             top: 0;
@@ -452,16 +315,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            backdrop-filter: blur(6px);
         }
         .modal-container {
             position: relative;
             width: 90%;
             max-width: 1000px;
             background: #000;
-            border-radius: 1.2rem;
+            border-radius: 1rem;
             overflow: hidden;
-            box-shadow: 0 30px 40px rgba(0,0,0,0.6);
         }
         .modal-container iframe {
             width: 100%;
@@ -470,7 +331,7 @@
         }
         .close-modal-btn {
             position: absolute;
-            top: -42px;
+            top: -40px;
             right: 0;
             background: rgba(0,0,0,0.7);
             font-size: 28px;
@@ -482,49 +343,22 @@
             justify-content: center;
             cursor: pointer;
             color: white;
-            transition: 0.2s;
-        }
-        .close-modal-btn:hover {
-            background: #ff8c00;
-            color: black;
         }
 
-        /* contact & footer */
         .contact-section {
             background: #0a0a12;
             text-align: center;
             padding: 3rem 1.5rem;
             border-top: 1px solid #222;
         }
-        .contact-section h2 {
-            color: #ffaa55;
-            margin-bottom: 0.8rem;
-        }
-        .contact-number {
-            font-size: 1.6rem;
-            margin: 0.6rem 0;
-        }
-        .contact-number a {
-            color: #ffaa55;
-            text-decoration: none;
-            font-weight: bold;
-        }
         .whatsapp-btn {
             background: #25D366;
             padding: 12px 28px;
             border-radius: 50px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
+            display: inline-block;
             text-decoration: none;
             color: white;
             font-weight: bold;
-            margin-top: 0.8rem;
-            transition: 0.2s;
-        }
-        .whatsapp-btn:hover {
-            transform: scale(1.02);
-            background: #20b859;
         }
         .footer {
             background: #020208;
@@ -535,26 +369,9 @@
         }
 
         @media (max-width: 700px) {
-            .navbar {
-                flex-direction: column;
-                gap: 10px;
-                padding: 1rem;
-            }
-            .hero h1 {
-                font-size: 2rem;
-            }
-            .page-title {
-                font-size: 1.8rem;
-            }
-            .modal-container iframe {
-                height: 260px;
-            }
-            .videos-grid, .apps-grid {
-                grid-template-columns: 1fr;
-            }
-            .contact-number {
-                font-size: 1.2rem;
-            }
+            .hero h1 { font-size: 2rem; }
+            .modal-container iframe { height: 260px; }
+            .apps-grid, .videos-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -563,15 +380,14 @@
 
 <script>
     // ============================================
-    // MULTI-USER ACCESS SYSTEM - DYNAMIC EMAIL MANAGEMENT
+    // MASTER ADMIN EMAIL - YAHI EMAIL ADMIN PANEL CONTROL KAREGA
     // ============================================
-    
-    // MASTER ADMIN EMAIL (only this email can modify the allowed list)
     const MASTER_ADMIN = "majidjutt1632@gmail.com";
     
-    // Load allowed emails from localStorage, or initialize with default
+    // Allowed emails list (localStorage mein save hoga)
     let ALLOWED_EMAILS = [];
 
+    // Load emails from localStorage
     function loadAllowedEmails() {
         const stored = localStorage.getItem("ladla_allowed_emails");
         if (stored) {
@@ -579,9 +395,8 @@
                 ALLOWED_EMAILS = JSON.parse(stored);
             } catch(e) { ALLOWED_EMAILS = []; }
         }
-        // If empty, set default emails
         if (!ALLOWED_EMAILS || ALLOWED_EMAILS.length === 0) {
-            ALLOWED_EMAILS = ["majidjutt1632@gmail.com", "ladlajutt1632@gmail.com"];
+            ALLOWED_EMAILS = [MASTER_ADMIN, "ladlajutt1632@gmail.com"];
             saveAllowedEmails();
         }
     }
@@ -590,13 +405,13 @@
         localStorage.setItem("ladla_allowed_emails", JSON.stringify(ALLOWED_EMAILS));
     }
 
-    // Check if email is allowed (case-insensitive)
+    // Check if email is allowed
     function isEmailAllowed(email) {
         return ALLOWED_EMAILS.includes(email.toLowerCase().trim());
     }
 
-    // Add new email to allowed list (only admin can call this via UI)
-    function addAllowedEmail(newEmail, isAdminOperation = true) {
+    // Add email - SIRF MASTER ADMIN CALL KAR SAKTA HAI
+    function addAllowedEmail(newEmail) {
         const emailClean = newEmail.toLowerCase().trim();
         if (!emailClean || !emailClean.includes('@')) return false;
         if (!ALLOWED_EMAILS.includes(emailClean)) {
@@ -607,9 +422,9 @@
         return false;
     }
 
-    function removeAllowedEmail(emailToRemove, isAdminOperation = true) {
+    // Remove email - SIRF MASTER ADMIN CALL KAR SAKTA HAI
+    function removeAllowedEmail(emailToRemove) {
         const emailClean = emailToRemove.toLowerCase().trim();
-        // Prevent removing the master admin
         if (emailClean === MASTER_ADMIN.toLowerCase()) return false;
         const index = ALLOWED_EMAILS.indexOf(emailClean);
         if (index !== -1) {
@@ -620,33 +435,52 @@
         return false;
     }
 
+    // APPS DATA
+    const APPS_DATA = [
+        { icon: "🎵", name: "TikTok Universal", description: "TikTok Universal App - Latest Version", link: "https://drive.google.com/uc?export=download&id=1dPUhjXEx-ivqiZ2m4SkA4b6ApU1tFm1W" },
+        { icon: "🔌", name: "TikTok Plug-in", description: "Essential TikTok Plug-in for Gaming", link: "https://drive.google.com/uc?export=download&id=1WzULKN7tpQcPNBTNacRSlBfnU8_nNfmU" },
+        { icon: "✂️", name: "YouCut Premium", description: "Video Editor - No Watermark", link: "https://drive.google.com/uc?export=download&id=1cBUCLzCZGw_rozTA2TDA6T4TK3E7boLi" },
+        { icon: "🎬", name: "CapCut Premium", description: "Premium Video Editor - All Features", link: "https://drive.google.com/uc?export=download&id=17boChYweM2Id4OXr5w4b9qa7ov7AfkVM" },
+        { icon: "🔒", name: "VPNify", description: "Fast VPN for Gaming - Unlimited", link: "https://drive.google.com/uc?export=download&id=1pOepcVPsJ7Hm8XapHMOuPrW7W-DJE-X-" },
+        { icon: "🔍", name: "Image Search Man", description: "Advanced Image Search Tool", link: "https://drive.google.com/uc?export=download&id=1JLiv70drrdk_P018MIpsqO8zZ9Dip3Cp" }
+    ];
+
+    // VIDEOS DATA
+    const VIDEOS_DATA = [
+        { no: "Lec 1", title: "How to create TikTok USA account", description: "Step by step guide", videoId: "1IHJCjUfkIWpI7pWmfWcq1wWtzkEMAy2u" },
+        { no: "Lec 2", title: "Introduction to GIP", description: "Gaming Incentive Program", videoId: "1lV76pHNoIOnvBQBlg_nVu8XtIiAAikm6" },
+        { no: "Lec 3", title: "How to upload videos in GIP", description: "Upload videos in GIP campaigns", videoId: "1S7B2DubPGWhI5JAf-Ywon4p3FYeK5c4d" },
+        { no: "Lec 4", title: "Easy content & views trick", description: "Advanced strategies", videoId: "1mBLwP9oylKNIGcK3ctOD6A6Qug7b_kuW" },
+        { no: "Lec 5", title: "Easy content par A1", description: "Maximize earnings", videoId: "13-NdhXE4qdfI9Sxc78frEO-QEhO8CZLl" },
+        { no: "Lec 6", title: "Fill USA Tax info", description: "USA tax information", videoId: "1oZp7Oh-5Cu5RMjKXEk-rDxW7z6NMRl9z" },
+        { no: "Lec 7", title: "Create PayPal Canada", description: "PayPal Canada for WITHDRAW", videoId: "1_K_YoXaMULLfNvmPE8RVsU-A2QbGCyWn" },
+        { no: "Lec 8", title: "Fill UK Tax info", description: "UK tax information", videoId: "1KZO_o05ZHEotykkoht7vTjvntYdkSi2I" }
+    ];
+
     // ========== RENDER LOGIN PAGE ==========
     function renderLoginPage() {
         const appDiv = document.getElementById("app");
-        if (!appDiv) return;
         appDiv.innerHTML = `
             <div class="login-page">
                 <div class="login-card fade-in">
                     <h2 class="bounce-soft">🔒 Ladla JUTT</h2>
-                    <p>Enter your registered email to access the course</p>
-                    <input type="email" id="loginEmail" placeholder="Your email address" autocomplete="off">
+                    <p>Enter your registered email to access</p>
+                    <input type="email" id="loginEmail" placeholder="Your email address">
                     <button id="loginBtn">Continue →</button>
                     <div id="loginError" class="error-msg"></div>
-                    <div class="info-badge">✨ Multi-user system | Admin can add any email</div>
                 </div>
             </div>
         `;
-        document.getElementById("loginBtn")?.addEventListener("click", () => handleLogin());
+        document.getElementById("loginBtn")?.addEventListener("click", handleLogin);
         document.getElementById("loginEmail")?.addEventListener("keypress", (e) => {
             if (e.key === "Enter") handleLogin();
         });
     }
 
     function handleLogin() {
-        const emailInput = document.getElementById("loginEmail");
+        const email = document.getElementById("loginEmail").value.trim().toLowerCase();
         const errorSpan = document.getElementById("loginError");
-        if (!emailInput) return;
-        const email = emailInput.value.trim().toLowerCase();
+        
         if (!email) {
             errorSpan.innerText = "❌ Please enter your email";
             return;
@@ -666,19 +500,19 @@
         renderLoginPage();
     }
 
-    // ========== ADMIN PANEL RENDER (only for master admin) ==========
+    // ========== ADMIN PANEL (SIRF MASTER ADMIN DEKHEGA) ==========
     function renderAdminPanel() {
         const currentUser = localStorage.getItem("ladlaUserEmail") || "";
         const isMaster = (currentUser.toLowerCase() === MASTER_ADMIN.toLowerCase());
         
-        if (!isMaster) return ''; // only master admin sees the panel
+        if (!isMaster) return '';
         
         let emailsHtml = '';
         ALLOWED_EMAILS.forEach(email => {
             emailsHtml += `
                 <div class="email-item">
-                    <span>📧 ${email} ${email === MASTER_ADMIN.toLowerCase() ? '<span class="master-badge">MASTER</span>' : ''}</span>
-                    ${email !== MASTER_ADMIN.toLowerCase() ? `<button class="remove-email" data-email="${email}">Remove</button>` : ''}
+                    <span>📧 ${email} ${email === MASTER_ADMIN.toLowerCase() ? '<span class="master-badge">MASTER (You)</span>' : ''}</span>
+                    ${email !== MASTER_ADMIN.toLowerCase() ? `<button class="remove-email" data-email="${email}">Remove Access</button>` : ''}
                 </div>
             `;
         });
@@ -686,22 +520,27 @@
         return `
             <div class="admin-panel slide-up">
                 <div class="admin-title">
-                    👑 Admin Control Panel (Master Access)
+                    👑 Admin Control Panel - Manage Users
                 </div>
                 <div class="email-input-group">
                     <input type="email" id="newEmailInput" placeholder="Enter email to give access...">
                     <button id="addEmailBtn" class="admin-btn">➕ Add User</button>
                 </div>
-                <div style="font-size:0.8rem; color:#aaa; margin-bottom:8px;">Authorized Users (${ALLOWED_EMAILS.length})</div>
+                <div style="font-size:0.9rem; margin-bottom:10px; color:#ffaa66;">
+                    ✅ Total Authorized Users: ${ALLOWED_EMAILS.length}
+                </div>
                 <div class="admin-list" id="adminEmailList">
                     ${emailsHtml}
                 </div>
-                <p style="font-size:0.7rem; margin-top:10px; color:#ffaa66;">💡 You can add unlimited emails. Anyone in this list can access full course.</p>
+                <p style="font-size:0.75rem; margin-top:12px; color:#aaa;">
+                    💡 Note: Master admin (${MASTER_ADMIN}) cannot be removed. Add any email and they will get instant access.
+                </p>
             </div>
         `;
     }
     
     function attachAdminEvents() {
+        // Add email event
         const addBtn = document.getElementById("addEmailBtn");
         if (addBtn) {
             addBtn.addEventListener("click", () => {
@@ -709,60 +548,66 @@
                 if (input && input.value) {
                     if (addAllowedEmail(input.value)) {
                         input.value = '';
-                        // re-render admin panel section dynamically
+                        // Refresh admin panel
                         const adminContainer = document.getElementById("adminPanelContainer");
                         if (adminContainer) {
                             adminContainer.innerHTML = renderAdminPanel();
                             attachAdminEvents();
-                            // also refresh apps/videos? no needed, but reattach events
                         }
-                        // also refresh the list after adding
+                        alert("✅ User added successfully! They can now login.");
                     } else {
-                        alert("Invalid email or already exists!");
+                        alert("❌ Invalid email or already in the list!");
                     }
+                } else {
+                    alert("Please enter an email address");
                 }
             });
         }
-        // attach remove events
+        
+        // Remove email events
         document.querySelectorAll(".remove-email").forEach(btn => {
             btn.addEventListener("click", (e) => {
                 const email = btn.getAttribute("data-email");
-                if (email && confirm(`Remove "${email}" from access list?`)) {
-                    removeAllowedEmail(email);
-                    const adminContainer = document.getElementById("adminPanelContainer");
-                    if (adminContainer) {
-                        adminContainer.innerHTML = renderAdminPanel();
-                        attachAdminEvents();
+                if (email && confirm(`Remove "${email}" from access list? They will lose access immediately.`)) {
+                    if (removeAllowedEmail(email)) {
+                        // Refresh admin panel
+                        const adminContainer = document.getElementById("adminPanelContainer");
+                        if (adminContainer) {
+                            adminContainer.innerHTML = renderAdminPanel();
+                            attachAdminEvents();
+                        }
+                        alert("✅ User removed successfully!");
+                    } else {
+                        alert("Cannot remove master admin!");
                     }
                 }
             });
         });
     }
 
-    // ========== RENDER MAIN DASHBOARD ==========
+    // ========== RENDER MAIN WEBSITE ==========
     function renderMainWebsite() {
         const appDiv = document.getElementById("app");
-        if (!appDiv) return;
         const currentUser = localStorage.getItem("ladlaUserEmail") || "";
         const isMaster = (currentUser.toLowerCase() === MASTER_ADMIN.toLowerCase());
         
         appDiv.innerHTML = `
             <div class="main-website">
                 <div class="navbar slide-up">
-                    <div class="logo pulse">Ladla<span>JUTT</span></div>
+                    <div class="logo">Ladla<span>JUTT</span></div>
                     <div class="nav-links">
                         <a id="navHome">🏠 Home</a>
                         <a id="navResources">📦 Resources</a>
                         <a id="navVideos">🎬 Videos</a>
-                        ${isMaster ? '<a id="navAdmin" class="admin-link">👑 Admin</a>' : ''}
+                        ${isMaster ? '<a id="navAdmin" class="admin-link">👑 Admin Panel</a>' : ''}
                         <a id="navLogout" style="color:#ff8c00">🚪 Logout</a>
                     </div>
                 </div>
 
                 <div id="homePage" class="page active">
                     <div class="hero">
-                        <div class="money-icon float-em">💰 🎮 💰</div>
-                        <h1 class="fade-in">Hey, I'm <span class="highlight glow-text">Ladla JUTT</span></h1>
+                        <div class="money-icon">💰 🎮 💰</div>
+                        <h1>Hey, I'm <span style="color:#ff8c00">Ladla JUTT</span></h1>
                         <div class="tagline">⚡ Your TikTok Gaming Mentor ⚡</div>
                         <div class="hero-box">
                             <p style="font-size:1.2rem; font-weight:bold;">🔥 TikTok Gaming Incentive Program 🔥</p>
@@ -774,21 +619,20 @@
                                 <li>📈 Strategies to maximize your earnings</li>
                                 <li>🛠️ All required tools and apps provided here</li>
                             </ul>
-                            <p style="margin-top:20px;">👇 Click on <strong style="color:#ff8c00">Resources</strong> to download apps 👇</p>
                         </div>
                     </div>
                 </div>
 
                 <div id="resourcesPage" class="page">
                     <div class="container">
-                        <h2 class="page-title slide-up">📦 Required Apps & Tools</h2>
+                        <h2 class="page-title">📦 Required Apps & Tools</h2>
                         <div id="appsList" class="apps-grid"></div>
                     </div>
                 </div>
 
                 <div id="videosPage" class="page">
                     <div class="container">
-                        <h2 class="page-title slide-up">🎬 Video Tutorials</h2>
+                        <h2 class="page-title">🎬 Video Tutorials</h2>
                         <div id="videosList" class="videos-grid"></div>
                     </div>
                 </div>
@@ -796,23 +640,23 @@
                 ${isMaster ? `
                 <div id="adminPage" class="page">
                     <div class="container">
-                        <h2 class="page-title slide-up">👑 Admin Dashboard</h2>
+                        <h2 class="page-title">👑 Admin Dashboard</h2>
                         <div id="adminPanelContainer"></div>
                     </div>
                 </div>
                 ` : ''}
 
                 <div class="contact-section">
-                    <h2 class="slide-up">📞 Need Help? Contact Me</h2>
+                    <h2>📞 Need Help? Contact Me</h2>
                     <div class="contact-number bounce-soft">
-                        📱 <a href="tel:03297500700">0329 7500700</a>
+                        📱 <a href="tel:03297500700" style="color:#ffaa55; text-decoration:none;">0329 7500700</a>
                     </div>
                     <a href="https://wa.me/923297500700?text=Assalamualaikum%20Ladla%20JUTT%20sir" class="whatsapp-btn" target="_blank">
                         💬 Chat on WhatsApp
                     </a>
                 </div>
                 <div class="footer">
-                    <p>&copy; 2026 Ladla JUTT - TikTok Gaming Course | Dynamic Multi-User Access</p>
+                    <p>&copy; 2026 Ladla JUTT - TikTok Gaming Course | Admin Controlled Access</p>
                 </div>
             </div>
         `;
@@ -832,7 +676,7 @@
         document.getElementById("navHome")?.addEventListener("click", () => showPage("home"));
         document.getElementById("navResources")?.addEventListener("click", () => showPage("resources"));
         document.getElementById("navVideos")?.addEventListener("click", () => showPage("videos"));
-        document.getElementById("navLogout")?.addEventListener("click", () => handleLogout());
+        document.getElementById("navLogout")?.addEventListener("click", handleLogout);
         
         showPage("home");
     }
@@ -874,77 +718,59 @@
         container.innerHTML = html;
         document.querySelectorAll(".video-card").forEach(card => {
             const vidId = card.getAttribute("data-video-id");
-            card.addEventListener("click", () => playVideoById(vidId));
+            card.addEventListener("click", () => playVideo(vidId));
         });
     }
 
-    function playVideoById(videoId) {
-        if (!videoId) return;
-        const embedUrl = `https://drive.google.com/file/d/${videoId}/preview`;
-        const modalDiv = document.createElement("div");
-        modalDiv.className = "video-modal";
-        modalDiv.innerHTML = `
+    function playVideo(videoId) {
+        const modal = document.createElement("div");
+        modal.className = "video-modal";
+        modal.innerHTML = `
             <div class="modal-container">
-                <div class="close-modal-btn" id="closeModalBtn">✕</div>
-                <iframe src="${embedUrl}" frameborder="0" allowfullscreen></iframe>
+                <div class="close-modal-btn">✕</div>
+                <iframe src="https://drive.google.com/file/d/${videoId}/preview" frameborder="0" allowfullscreen></iframe>
             </div>
         `;
-        document.body.appendChild(modalDiv);
-        const closeBtn = modalDiv.querySelector("#closeModalBtn");
-        const closeModal = () => modalDiv.remove();
-        closeBtn?.addEventListener("click", closeModal);
-        modalDiv.addEventListener("click", (e) => { if (e.target === modalDiv) closeModal(); });
+        document.body.appendChild(modal);
+        modal.querySelector(".close-modal-btn").onclick = () => modal.remove();
+        modal.onclick = (e) => { if(e.target === modal) modal.remove(); };
     }
 
     function showPage(pageName) {
-        const home = document.getElementById("homePage");
-        const resources = document.getElementById("resourcesPage");
-        const videos = document.getElementById("videosPage");
-        const admin = document.getElementById("adminPage");
-        const pages = [home, resources, videos, admin];
-        pages.forEach(p => { if(p) { p.classList.remove("active"); p.style.display = "none"; } });
-        if (pageName === "home" && home) { home.classList.add("active"); home.style.display = "block"; }
-        else if (pageName === "resources" && resources) { resources.classList.add("active"); resources.style.display = "block"; }
-        else if (pageName === "videos" && videos) { videos.classList.add("active"); videos.style.display = "block"; }
-        else if (pageName === "admin" && admin) { admin.classList.add("active"); admin.style.display = "block"; }
+        const pages = {
+            home: document.getElementById("homePage"),
+            resources: document.getElementById("resourcesPage"),
+            videos: document.getElementById("videosPage"),
+            admin: document.getElementById("adminPage")
+        };
+        
+        Object.values(pages).forEach(p => { if(p) { p.classList.remove("active"); p.style.display = "none"; } });
+        
+        if (pages[pageName]) {
+            pages[pageName].classList.add("active");
+            pages[pageName].style.display = "block";
+        }
     }
 
-    // Data constants
-    const APPS_DATA = [
-        { icon: "🎵", name: "TikTok Universal", description: "TikTok Universal App - Latest Version", link: "https://drive.google.com/uc?export=download&id=1dPUhjXEx-ivqiZ2m4SkA4b6ApU1tFm1W" },
-        { icon: "🔌", name: "TikTok Plug-in", description: "Essential TikTok Plug-in for Gaming", link: "https://drive.google.com/uc?export=download&id=1WzULKN7tpQcPNBTNacRSlBfnU8_nNfmU" },
-        { icon: "✂️", name: "YouCut Premium", description: "Video Editor - No Watermark", link: "https://drive.google.com/uc?export=download&id=1cBUCLzCZGw_rozTA2TDA6T4TK3E7boLi" },
-        { icon: "🎬", name: "CapCut Premium", description: "Premium Video Editor - All Features", link: "https://drive.google.com/uc?export=download&id=17boChYweM2Id4OXr5w4b9qa7ov7AfkVM" },
-        { icon: "🔒", name: "VPNify", description: "Fast VPN for Gaming - Unlimited", link: "https://drive.google.com/uc?export=download&id=1pOepcVPsJ7Hm8XapHMOuPrW7W-DJE-X-" },
-        { icon: "🔍", name: "Image Search Man", description: "Advanced Image Search Tool", link: "https://drive.google.com/uc?export=download&id=1JLiv70drrdk_P018MIpsqO8zZ9Dip3Cp" }
-    ];
-    const VIDEOS_DATA = [
-        { no: "Lec 1", title: "How to create TikTok USA account", description: "Step by step guide to create TikTok USA account", videoId: "1IHJCjUfkIWpI7pWmfWcq1wWtzkEMAy2u" },
-        { no: "Lec 2", title: "Introduction to GIP", description: "Complete introduction to Gaming Incentive Program", videoId: "1lV76pHNoIOnvBQBlg_nVu8XtIiAAikm6" },
-        { no: "Lec 3", title: "How to upload videos in GIP campaigns", description: "Learn how to upload videos in GIP campaigns", videoId: "1S7B2DubPGWhI5JAf-Ywon4p3FYeK5c4d" },
-        { no: "Lec 4", title: "Easy content & views trick", description: "Advanced strategies for GIP campaigns", videoId: "1mBLwP9oylKNIGcK3ctOD6A6Qug7b_kuW" },
-        { no: "Lec 5", title: "Easy content par A1", description: "Tips to maximize your earnings", videoId: "13-NdhXE4qdfI9Sxc78frEO-QEhO8CZLl" },
-        { no: "Lec 6", title: "Fill USA Tax info", description: "How to fill usa tax information", videoId: "1oZp7Oh-5Cu5RMjKXEk-rDxW7z6NMRl9z" },
-        { no: "Lec 7", title: "How to create PayPal Canada", description: "How to create PayPal Canada for WITHDRAW", videoId: "1_K_YoXaMULLfNvmPE8RVsU-A2QbGCyWn" },
-        { no: "Lec 8", title: "Fill UK Tax info", description: "How to fill uk tax information", videoId: "1KZO_o05ZHEotykkoht7vTjvntYdkSi2I" }
-    ];
-
-    // INIT
+    // ========== INITIALIZATION ==========
     function init() {
         if (!document.getElementById("app")) {
             const newApp = document.createElement("div");
             newApp.id = "app";
             document.body.appendChild(newApp);
         }
-        loadAllowedEmails();  // load emails from storage
+        loadAllowedEmails();
         const loggedIn = localStorage.getItem("ladlaLoggedIn") === "true";
-        if (loggedIn && isEmailAllowed(localStorage.getItem("ladlaUserEmail") || "")) {
+        const userEmail = localStorage.getItem("ladlaUserEmail") || "";
+        
+        if (loggedIn && isEmailAllowed(userEmail)) {
             renderMainWebsite();
         } else {
             localStorage.removeItem("ladlaLoggedIn");
             renderLoginPage();
         }
     }
+    
     init();
 </script>
 </body>
