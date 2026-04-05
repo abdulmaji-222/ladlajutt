@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Ladla JUTT - TikTok Gaming Masterclass</title>
+    <title>Ladla JUTT - TikTok Gaming | Multi-User Access System</title>
     <style>
         /* Base & Reset */
         * {
@@ -43,10 +43,6 @@
             50% { transform: translateY(-12px); }
             100% { transform: translateY(0px); }
         }
-        @keyframes shine {
-            0% { background-position: -200% center; }
-            100% { background-position: 200% center; }
-        }
 
         .fade-in { animation: fadeIn 0.7s ease forwards; }
         .slide-up { animation: slideUp 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards; }
@@ -69,10 +65,10 @@
             border-radius: 2rem;
             padding: 2.5rem 2rem;
             width: 100%;
-            max-width: 400px;
+            max-width: 450px;
             text-align: center;
             border: 1px solid rgba(255, 140, 0, 0.4);
-            box-shadow: 0 25px 45px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,140,0,0.1);
+            box-shadow: 0 25px 45px rgba(0,0,0,0.5);
             transition: all 0.2s;
         }
         .login-card h2 {
@@ -85,7 +81,8 @@
         }
         .login-card p {
             color: #ccc;
-            margin-bottom: 1.8rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
         }
         .login-card input {
             width: 100%;
@@ -125,6 +122,98 @@
             font-size: 0.85rem;
             margin-top: 1rem;
         }
+        .info-badge {
+            background: rgba(255,140,0,0.15);
+            border-radius: 30px;
+            padding: 8px 12px;
+            font-size: 0.7rem;
+            display: inline-block;
+            margin-top: 12px;
+            color: #ffaa66;
+        }
+
+        /* Admin Panel Styles (only visible to master admin) */
+        .admin-panel {
+            background: #0a0a12;
+            border: 1px solid #ff8c00;
+            border-radius: 1rem;
+            padding: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        .admin-title {
+            color: #ff8c00;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .email-input-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+        .email-input-group input {
+            flex: 1;
+            padding: 10px 15px;
+            background: #1e1e2e;
+            border: 1px solid #444;
+            border-radius: 40px;
+            color: white;
+            font-size: 0.9rem;
+        }
+        .admin-btn {
+            background: #ff8c00;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #111;
+        }
+        .admin-btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+        .admin-btn-sm {
+            padding: 5px 12px;
+            font-size: 0.8rem;
+        }
+        .admin-list {
+            margin-top: 1rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .email-item {
+            background: #1a1a24;
+            padding: 8px 12px;
+            margin: 5px 0;
+            border-radius: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+        }
+        .remove-email {
+            background: #dc3545;
+            border: none;
+            padding: 4px 12px;
+            border-radius: 30px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.7rem;
+        }
+        .master-badge {
+            background: #ff8c00;
+            color: #111;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-left: 8px;
+        }
 
         /* main website navbar */
         .navbar {
@@ -159,6 +248,7 @@
             display: flex;
             gap: 1.5rem;
             flex-wrap: wrap;
+            align-items: center;
         }
         .nav-links a {
             color: #f0f0f0;
@@ -173,6 +263,11 @@
             color: #ff8c00;
             text-shadow: 0 0 4px #ff8c00;
         }
+        .admin-link {
+            border: 1px solid #ff8c00;
+            padding: 4px 12px;
+            border-radius: 30px;
+        }
 
         /* hero section */
         .hero {
@@ -185,7 +280,6 @@
             margin-bottom: 0.75rem;
         }
         .highlight {
-            color: #ff8c00;
             background: linear-gradient(135deg, #ffb347, #ff6a00);
             -webkit-background-clip: text;
             background-clip: text;
@@ -455,10 +549,7 @@
             .modal-container iframe {
                 height: 260px;
             }
-            .videos-grid {
-                grid-template-columns: 1fr;
-            }
-            .apps-grid {
+            .videos-grid, .apps-grid {
                 grid-template-columns: 1fr;
             }
             .contact-number {
@@ -472,48 +563,64 @@
 
 <script>
     // ============================================
-    // CONFIGURATION - AUTHORIZED EMAILS
+    // MULTI-USER ACCESS SYSTEM - DYNAMIC EMAIL MANAGEMENT
     // ============================================
-    var ALLOWED_EMAILS = ["majidjutt1632@gmail.com,ladlajutt1632@gmail.com"];  
-                            // only this email can access
+    
+    // MASTER ADMIN EMAIL (only this email can modify the allowed list)
+    const MASTER_ADMIN = "majidjutt1632@gmail.com";
+    
+    // Load allowed emails from localStorage, or initialize with default
+    let ALLOWED_EMAILS = [];
 
-    // ============================================
-    // APPS DATA (download links)
-    // ============================================
-    const APPS_DATA = [
-        { icon: "🎵", name: "TikTok Universal", description: "TikTok Universal App - Latest Version", link: "https://drive.google.com/uc?export=download&id=1dPUhjXEx-ivqiZ2m4SkA4b6ApU1tFm1W" },
-        { icon: "🔌", name: "TikTok Plug-in", description: "Essential TikTok Plug-in for Gaming", link: "https://drive.google.com/uc?export=download&id=1WzULKN7tpQcPNBTNacRSlBfnU8_nNfmU" },
-        { icon: "✂️", name: "YouCut Premium", description: "Video Editor - No Watermark", link: "https://drive.google.com/uc?export=download&id=1cBUCLzCZGw_rozTA2TDA6T4TK3E7boLi" },
-        { icon: "🎬", name: "CapCut Premium", description: "Premium Video Editor - All Features", link: "https://drive.google.com/uc?export=download&id=17boChYweM2Id4OXr5w4b9qa7ov7AfkVM" },
-        { icon: "🔒", name: "VPNify", description: "Fast VPN for Gaming - Unlimited", link: "https://drive.google.com/uc?export=download&id=1pOepcVPsJ7Hm8XapHMOuPrW7W-DJE-X-" },
-        { icon: "🔍", name: "Image Search Man", description: "Advanced Image Search Tool", link: "https://drive.google.com/uc?export=download&id=1JLiv70drrdk_P018MIpsqO8zZ9Dip3Cp" }
-    ];
-
-    // ============================================
-    // VIDEOS DATA (Google Drive file IDs)
-    // ============================================
-    const VIDEOS_DATA = [
-        { no: "Lec 1", title: "How to create TikTok USA account", description: "Step by step guide to create TikTok USA account", videoId: "1IHJCjUfkIWpI7pWmfWcq1wWtzkEMAy2u" },
-        { no: "Lec 2", title: "Introduction to GIP", description: "Complete introduction to Gaming Incentive Program", videoId: "1lV76pHNoIOnvBQBlg_nVu8XtIiAAikm6" },
-        { no: "Lec 3", title: "How to upload videos in GIP campaigns", description: "Learn how to upload videos in GIP campaigns", videoId: "1S7B2DubPGWhI5JAf-Ywon4p3FYeK5c4d" },
-        { no: "Lec 4", title: "Easy content & views trick", description: "Advanced strategies for GIP campaigns", videoId: "1mBLwP9oylKNIGcK3ctOD6A6Qug7b_kuW" },
-        { no: "Lec 5", title: "Easy content par A1", description: "Tips to maximize your earnings", videoId: "13-NdhXE4qdfI9Sxc78frEO-QEhO8CZLl" },
-        { no: "Lec 6", title: "Fill USA Tax info", description: "How to fill usa tax information", videoId: "1oZp7Oh-5Cu5RMjKXEk-rDxW7z6NMRl9z" },
-        { no: "Lec 7", title: "How to create PayPal Canada", description: "How to create PayPal Canada for WITHDRAW", videoId: "1_K_YoXaMULLfNvmPE8RVsU-A2QbGCyWn" },
-        { no: "Lec 8", title: "Fill UK Tax info", description: "How to fill uk tax information", videoId: "1KZO_o05ZHEotykkoht7vTjvntYdkSi2I" }
-    ];
-
-    // Helper: Google Drive embed URL
-    function getDriveEmbedUrl(videoId) {
-        return `https://drive.google.com/file/d/${videoId}/preview`;
+    function loadAllowedEmails() {
+        const stored = localStorage.getItem("ladla_allowed_emails");
+        if (stored) {
+            try {
+                ALLOWED_EMAILS = JSON.parse(stored);
+            } catch(e) { ALLOWED_EMAILS = []; }
+        }
+        // If empty, set default emails
+        if (!ALLOWED_EMAILS || ALLOWED_EMAILS.length === 0) {
+            ALLOWED_EMAILS = ["majidjutt1632@gmail.com", "ladlajutt1632@gmail.com"];
+            saveAllowedEmails();
+        }
     }
 
-    // Check allowed email
+    function saveAllowedEmails() {
+        localStorage.setItem("ladla_allowed_emails", JSON.stringify(ALLOWED_EMAILS));
+    }
+
+    // Check if email is allowed (case-insensitive)
     function isEmailAllowed(email) {
         return ALLOWED_EMAILS.includes(email.toLowerCase().trim());
     }
 
-    // ========== RENDER LOGIN ==========
+    // Add new email to allowed list (only admin can call this via UI)
+    function addAllowedEmail(newEmail, isAdminOperation = true) {
+        const emailClean = newEmail.toLowerCase().trim();
+        if (!emailClean || !emailClean.includes('@')) return false;
+        if (!ALLOWED_EMAILS.includes(emailClean)) {
+            ALLOWED_EMAILS.push(emailClean);
+            saveAllowedEmails();
+            return true;
+        }
+        return false;
+    }
+
+    function removeAllowedEmail(emailToRemove, isAdminOperation = true) {
+        const emailClean = emailToRemove.toLowerCase().trim();
+        // Prevent removing the master admin
+        if (emailClean === MASTER_ADMIN.toLowerCase()) return false;
+        const index = ALLOWED_EMAILS.indexOf(emailClean);
+        if (index !== -1) {
+            ALLOWED_EMAILS.splice(index, 1);
+            saveAllowedEmails();
+            return true;
+        }
+        return false;
+    }
+
+    // ========== RENDER LOGIN PAGE ==========
     function renderLoginPage() {
         const appDiv = document.getElementById("app");
         if (!appDiv) return;
@@ -521,23 +628,18 @@
             <div class="login-page">
                 <div class="login-card fade-in">
                     <h2 class="bounce-soft">🔒 Ladla JUTT</h2>
-                    <p>Authorized access only • Enter your email</p>
+                    <p>Enter your registered email to access the course</p>
                     <input type="email" id="loginEmail" placeholder="Your email address" autocomplete="off">
                     <button id="loginBtn">Continue →</button>
                     <div id="loginError" class="error-msg"></div>
+                    <div class="info-badge">✨ Multi-user system | Admin can add any email</div>
                 </div>
             </div>
         `;
-        const loginBtn = document.getElementById("loginBtn");
-        if (loginBtn) {
-            loginBtn.addEventListener("click", () => handleLogin());
-        }
-        const emailField = document.getElementById("loginEmail");
-        if (emailField) {
-            emailField.addEventListener("keypress", (e) => {
-                if (e.key === "Enter") handleLogin();
-            });
-        }
+        document.getElementById("loginBtn")?.addEventListener("click", () => handleLogin());
+        document.getElementById("loginEmail")?.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") handleLogin();
+        });
     }
 
     function handleLogin() {
@@ -554,7 +656,7 @@
             localStorage.setItem("ladlaUserEmail", email);
             renderMainWebsite();
         } else {
-            errorSpan.innerText = "❌ Access Denied! This email is not authorized.";
+            errorSpan.innerText = "❌ Access Denied! This email is not authorized. Contact admin to get access.";
         }
     }
 
@@ -564,11 +666,86 @@
         renderLoginPage();
     }
 
+    // ========== ADMIN PANEL RENDER (only for master admin) ==========
+    function renderAdminPanel() {
+        const currentUser = localStorage.getItem("ladlaUserEmail") || "";
+        const isMaster = (currentUser.toLowerCase() === MASTER_ADMIN.toLowerCase());
+        
+        if (!isMaster) return ''; // only master admin sees the panel
+        
+        let emailsHtml = '';
+        ALLOWED_EMAILS.forEach(email => {
+            emailsHtml += `
+                <div class="email-item">
+                    <span>📧 ${email} ${email === MASTER_ADMIN.toLowerCase() ? '<span class="master-badge">MASTER</span>' : ''}</span>
+                    ${email !== MASTER_ADMIN.toLowerCase() ? `<button class="remove-email" data-email="${email}">Remove</button>` : ''}
+                </div>
+            `;
+        });
+        
+        return `
+            <div class="admin-panel slide-up">
+                <div class="admin-title">
+                    👑 Admin Control Panel (Master Access)
+                </div>
+                <div class="email-input-group">
+                    <input type="email" id="newEmailInput" placeholder="Enter email to give access...">
+                    <button id="addEmailBtn" class="admin-btn">➕ Add User</button>
+                </div>
+                <div style="font-size:0.8rem; color:#aaa; margin-bottom:8px;">Authorized Users (${ALLOWED_EMAILS.length})</div>
+                <div class="admin-list" id="adminEmailList">
+                    ${emailsHtml}
+                </div>
+                <p style="font-size:0.7rem; margin-top:10px; color:#ffaa66;">💡 You can add unlimited emails. Anyone in this list can access full course.</p>
+            </div>
+        `;
+    }
+    
+    function attachAdminEvents() {
+        const addBtn = document.getElementById("addEmailBtn");
+        if (addBtn) {
+            addBtn.addEventListener("click", () => {
+                const input = document.getElementById("newEmailInput");
+                if (input && input.value) {
+                    if (addAllowedEmail(input.value)) {
+                        input.value = '';
+                        // re-render admin panel section dynamically
+                        const adminContainer = document.getElementById("adminPanelContainer");
+                        if (adminContainer) {
+                            adminContainer.innerHTML = renderAdminPanel();
+                            attachAdminEvents();
+                            // also refresh apps/videos? no needed, but reattach events
+                        }
+                        // also refresh the list after adding
+                    } else {
+                        alert("Invalid email or already exists!");
+                    }
+                }
+            });
+        }
+        // attach remove events
+        document.querySelectorAll(".remove-email").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                const email = btn.getAttribute("data-email");
+                if (email && confirm(`Remove "${email}" from access list?`)) {
+                    removeAllowedEmail(email);
+                    const adminContainer = document.getElementById("adminPanelContainer");
+                    if (adminContainer) {
+                        adminContainer.innerHTML = renderAdminPanel();
+                        attachAdminEvents();
+                    }
+                }
+            });
+        });
+    }
+
     // ========== RENDER MAIN DASHBOARD ==========
     function renderMainWebsite() {
         const appDiv = document.getElementById("app");
         if (!appDiv) return;
-
+        const currentUser = localStorage.getItem("ladlaUserEmail") || "";
+        const isMaster = (currentUser.toLowerCase() === MASTER_ADMIN.toLowerCase());
+        
         appDiv.innerHTML = `
             <div class="main-website">
                 <div class="navbar slide-up">
@@ -577,6 +754,7 @@
                         <a id="navHome">🏠 Home</a>
                         <a id="navResources">📦 Resources</a>
                         <a id="navVideos">🎬 Videos</a>
+                        ${isMaster ? '<a id="navAdmin" class="admin-link">👑 Admin</a>' : ''}
                         <a id="navLogout" style="color:#ff8c00">🚪 Logout</a>
                     </div>
                 </div>
@@ -614,6 +792,15 @@
                         <div id="videosList" class="videos-grid"></div>
                     </div>
                 </div>
+                
+                ${isMaster ? `
+                <div id="adminPage" class="page">
+                    <div class="container">
+                        <h2 class="page-title slide-up">👑 Admin Dashboard</h2>
+                        <div id="adminPanelContainer"></div>
+                    </div>
+                </div>
+                ` : ''}
 
                 <div class="contact-section">
                     <h2 class="slide-up">📞 Need Help? Contact Me</h2>
@@ -625,22 +812,28 @@
                     </a>
                 </div>
                 <div class="footer">
-                    <p>&copy; 2026 Ladla JUTT - TikTok Gaming Course</p>
+                    <p>&copy; 2026 Ladla JUTT - TikTok Gaming Course | Dynamic Multi-User Access</p>
                 </div>
             </div>
         `;
 
-        // Render dynamic content
         renderAppsGrid();
         renderVideosGrid();
-
-        // Navigation events
+        
+        if (isMaster) {
+            const adminContainer = document.getElementById("adminPanelContainer");
+            if (adminContainer) {
+                adminContainer.innerHTML = renderAdminPanel();
+                attachAdminEvents();
+            }
+            document.getElementById("navAdmin")?.addEventListener("click", () => showPage("admin"));
+        }
+        
         document.getElementById("navHome")?.addEventListener("click", () => showPage("home"));
         document.getElementById("navResources")?.addEventListener("click", () => showPage("resources"));
         document.getElementById("navVideos")?.addEventListener("click", () => showPage("videos"));
         document.getElementById("navLogout")?.addEventListener("click", () => handleLogout());
-
-        // default page state
+        
         showPage("home");
     }
 
@@ -679,7 +872,6 @@
             `;
         }
         container.innerHTML = html;
-        // Attach event listeners to each video card
         document.querySelectorAll(".video-card").forEach(card => {
             const vidId = card.getAttribute("data-video-id");
             card.addEventListener("click", () => playVideoById(vidId));
@@ -688,7 +880,7 @@
 
     function playVideoById(videoId) {
         if (!videoId) return;
-        const embedUrl = getDriveEmbedUrl(videoId);
+        const embedUrl = `https://drive.google.com/file/d/${videoId}/preview`;
         const modalDiv = document.createElement("div");
         modalDiv.className = "video-modal";
         modalDiv.innerHTML = `
@@ -699,56 +891,60 @@
         `;
         document.body.appendChild(modalDiv);
         const closeBtn = modalDiv.querySelector("#closeModalBtn");
-        const closeModal = () => {
-            if (modalDiv && modalDiv.remove) modalDiv.remove();
-        };
+        const closeModal = () => modalDiv.remove();
         closeBtn?.addEventListener("click", closeModal);
-        modalDiv.addEventListener("click", (e) => {
-            if (e.target === modalDiv) closeModal();
-        });
+        modalDiv.addEventListener("click", (e) => { if (e.target === modalDiv) closeModal(); });
     }
 
     function showPage(pageName) {
         const home = document.getElementById("homePage");
         const resources = document.getElementById("resourcesPage");
         const videos = document.getElementById("videosPage");
-        if (!home || !resources || !videos) return;
-        home.classList.remove("active");
-        resources.classList.remove("active");
-        videos.classList.remove("active");
-        home.style.display = "none";
-        resources.style.display = "none";
-        videos.style.display = "none";
-        
-        if (pageName === "home") {
-            home.classList.add("active");
-            home.style.display = "block";
-        } else if (pageName === "resources") {
-            resources.classList.add("active");
-            resources.style.display = "block";
-        } else if (pageName === "videos") {
-            videos.classList.add("active");
-            videos.style.display = "block";
-        }
+        const admin = document.getElementById("adminPage");
+        const pages = [home, resources, videos, admin];
+        pages.forEach(p => { if(p) { p.classList.remove("active"); p.style.display = "none"; } });
+        if (pageName === "home" && home) { home.classList.add("active"); home.style.display = "block"; }
+        else if (pageName === "resources" && resources) { resources.classList.add("active"); resources.style.display = "block"; }
+        else if (pageName === "videos" && videos) { videos.classList.add("active"); videos.style.display = "block"; }
+        else if (pageName === "admin" && admin) { admin.classList.add("active"); admin.style.display = "block"; }
     }
 
-    // ========== INIT ==========
+    // Data constants
+    const APPS_DATA = [
+        { icon: "🎵", name: "TikTok Universal", description: "TikTok Universal App - Latest Version", link: "https://drive.google.com/uc?export=download&id=1dPUhjXEx-ivqiZ2m4SkA4b6ApU1tFm1W" },
+        { icon: "🔌", name: "TikTok Plug-in", description: "Essential TikTok Plug-in for Gaming", link: "https://drive.google.com/uc?export=download&id=1WzULKN7tpQcPNBTNacRSlBfnU8_nNfmU" },
+        { icon: "✂️", name: "YouCut Premium", description: "Video Editor - No Watermark", link: "https://drive.google.com/uc?export=download&id=1cBUCLzCZGw_rozTA2TDA6T4TK3E7boLi" },
+        { icon: "🎬", name: "CapCut Premium", description: "Premium Video Editor - All Features", link: "https://drive.google.com/uc?export=download&id=17boChYweM2Id4OXr5w4b9qa7ov7AfkVM" },
+        { icon: "🔒", name: "VPNify", description: "Fast VPN for Gaming - Unlimited", link: "https://drive.google.com/uc?export=download&id=1pOepcVPsJ7Hm8XapHMOuPrW7W-DJE-X-" },
+        { icon: "🔍", name: "Image Search Man", description: "Advanced Image Search Tool", link: "https://drive.google.com/uc?export=download&id=1JLiv70drrdk_P018MIpsqO8zZ9Dip3Cp" }
+    ];
+    const VIDEOS_DATA = [
+        { no: "Lec 1", title: "How to create TikTok USA account", description: "Step by step guide to create TikTok USA account", videoId: "1IHJCjUfkIWpI7pWmfWcq1wWtzkEMAy2u" },
+        { no: "Lec 2", title: "Introduction to GIP", description: "Complete introduction to Gaming Incentive Program", videoId: "1lV76pHNoIOnvBQBlg_nVu8XtIiAAikm6" },
+        { no: "Lec 3", title: "How to upload videos in GIP campaigns", description: "Learn how to upload videos in GIP campaigns", videoId: "1S7B2DubPGWhI5JAf-Ywon4p3FYeK5c4d" },
+        { no: "Lec 4", title: "Easy content & views trick", description: "Advanced strategies for GIP campaigns", videoId: "1mBLwP9oylKNIGcK3ctOD6A6Qug7b_kuW" },
+        { no: "Lec 5", title: "Easy content par A1", description: "Tips to maximize your earnings", videoId: "13-NdhXE4qdfI9Sxc78frEO-QEhO8CZLl" },
+        { no: "Lec 6", title: "Fill USA Tax info", description: "How to fill usa tax information", videoId: "1oZp7Oh-5Cu5RMjKXEk-rDxW7z6NMRl9z" },
+        { no: "Lec 7", title: "How to create PayPal Canada", description: "How to create PayPal Canada for WITHDRAW", videoId: "1_K_YoXaMULLfNvmPE8RVsU-A2QbGCyWn" },
+        { no: "Lec 8", title: "Fill UK Tax info", description: "How to fill uk tax information", videoId: "1KZO_o05ZHEotykkoht7vTjvntYdkSi2I" }
+    ];
+
+    // INIT
     function init() {
-        // ensure app container exists
         if (!document.getElementById("app")) {
             const newApp = document.createElement("div");
             newApp.id = "app";
             document.body.appendChild(newApp);
         }
+        loadAllowedEmails();  // load emails from storage
         const loggedIn = localStorage.getItem("ladlaLoggedIn") === "true";
-        if (loggedIn) {
+        if (loggedIn && isEmailAllowed(localStorage.getItem("ladlaUserEmail") || "")) {
             renderMainWebsite();
         } else {
+            localStorage.removeItem("ladlaLoggedIn");
             renderLoginPage();
         }
     }
-
-    // start the application
     init();
 </script>
 </body>
